@@ -4,6 +4,10 @@ class_materials/
 # Ignore Python cache files
 __pycache__/
 *.pyc
+*.pyo
 
 # Ignore environment files
 .env
+
+# Jupyter
+.ipynb_checkpoints/
