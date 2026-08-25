@@ -119,3 +119,35 @@ Raw SPY market data are currently stored in CSV format because CSV files are sim
 Data paths are configured using environment variables in the local `.env` file. The pipeline reads `DATA_DIR_RAW` and `DATA_DIR_PROCESSED` using `os.getenv()` rather than relying on machine-specific absolute paths. The `.env` file is excluded from version control, while `.env.example` documents the required configuration.
 
 The project pipeline reloads stored SPY data with pandas and validates key fields such as the date and closing price columns before the data are used in later stages.
+
+## Data Preprocessing
+
+Raw SPY market data are cleaned before exploratory analysis and modeling.
+
+The preprocessing pipeline:
+
+- converts the `date` column to pandas datetime format,
+- converts `close` values to numeric format,
+- removes observations with missing dates or closing prices,
+- removes duplicate trading dates,
+- removes non-positive closing prices,
+- sorts observations chronologically,
+- and resets the DataFrame index.
+
+Missing SPY closing prices are not imputed because artificial price values could distort subsequent return and volatility calculations. Since the project uses daily market data, each trading date is expected to correspond to one observation.
+
+Feature scaling is not applied at this stage. Scaling decisions will be made later based on the modeling approach to reduce the risk of data leakage.
+
+The cleaned dataset is stored in `data/processed/spy_clean.csv`.
+
+## Outlier Analysis
+
+Potential outliers are identified using the IQR rule applied to SPY daily returns. An observation is flagged when its return falls below Q1 − 1.5×IQR or above Q3 + 1.5×IQR.
+
+Outliers are flagged rather than automatically removed. Extreme daily returns may represent genuine market stress events, such as crash or rebound days, and these observations are directly relevant to a volatility forecasting project.
+
+The analysis therefore retains extreme observations in the primary dataset while comparing summary statistics with and without IQR-flagged observations as a sensitivity check.
+
+Z-score detection may be used as a secondary diagnostic, but it is not used as the primary rule because financial returns may exhibit heavy tails and may not be approximately normally distributed.
+
+Any future removal or winsorization of extreme observations will be reported explicitly and evaluated through sensitivity analysis.
