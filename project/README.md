@@ -106,3 +106,16 @@ project/
 ├── README.md         # Project overview and documentation
 ├── .gitignore        # Files excluded from version control
 └── requirements.txt  # Python dependencies
+
+## Data Storage
+
+The project separates raw and processed data into two directories:
+
+- `data/raw/` stores the original SPY market data acquired during the data ingestion stage.
+- `data/processed/` will store cleaned and transformed datasets created during later preprocessing and feature engineering stages.
+
+Raw SPY market data are currently stored in CSV format because CSV files are simple, portable, and easy to inspect. Processed datasets may later be stored in Parquet format to preserve data types and support more efficient storage and loading.
+
+Data paths are configured using environment variables in the local `.env` file. The pipeline reads `DATA_DIR_RAW` and `DATA_DIR_PROCESSED` using `os.getenv()` rather than relying on machine-specific absolute paths. The `.env` file is excluded from version control, while `.env.example` documents the required configuration.
+
+The project pipeline reloads stored SPY data with pandas and validates key fields such as the date and closing price columns before the data are used in later stages.
