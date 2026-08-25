@@ -151,3 +151,15 @@ The analysis therefore retains extreme observations in the primary dataset while
 Z-score detection may be used as a secondary diagnostic, but it is not used as the primary rule because financial returns may exhibit heavy tails and may not be approximately normally distributed.
 
 Any future removal or winsorization of extreme observations will be reported explicitly and evaluated through sensitivity analysis.
+
+## EDA Insights
+
+1. SPY closing prices show a long-term upward trend, so the price level itself may not be stationary and may be less appropriate than returns for short-term volatility modeling.
+
+2. Daily returns are centered near zero but contain several extreme positive and negative observations.
+
+3. The return distribution shows heavy tails, suggesting that extreme market movements occur more frequently than would be expected under a normal distribution.
+
+4. Large absolute returns appear to cluster in particular periods, suggesting volatility persistence.
+
+5. These findings motivate the use of lagged returns and rolling volatility measures as candidate features in the next stage.
