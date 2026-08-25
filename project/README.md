@@ -163,3 +163,19 @@ Any future removal or winsorization of extreme observations will be reported exp
 4. Large absolute returns appear to cluster in particular periods, suggesting volatility persistence.
 
 5. These findings motivate the use of lagged returns and rolling volatility measures as candidate features in the next stage.
+
+## Feature Engineering
+
+The following features are constructed from historical SPY market data for short-term volatility forecasting:
+
+- **daily_return** — one-day percentage change in SPY closing price.
+- **abs_return** — absolute daily return, representing the magnitude of market movement independent of direction.
+- **return_5d** — percentage change in SPY price over the previous five trading days.
+- **rolling_vol_5** — standard deviation of daily returns over the previous five trading days, representing recent short-term volatility.
+- **rolling_vol_20** — standard deviation of daily returns over the previous twenty trading days, representing the broader recent volatility environment.
+- **lag_return_1** — previous trading day's return.
+- **lag_abs_return_1** — magnitude of the previous trading day's return.
+
+These features are motivated by the persistence and clustering of financial market volatility observed during exploratory data analysis.
+
+The modeling target is **future_vol_5d**, representing realized volatility over the next five trading days. Predictor features use only information available at or before the prediction date to reduce the risk of look-ahead bias.
