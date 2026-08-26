@@ -179,3 +179,11 @@ The following features are constructed from historical SPY market data for short
 These features are motivated by the persistence and clustering of financial market volatility observed during exploratory data analysis.
 
 The modeling target is **future_vol_5d**, representing realized volatility over the next five trading days. Predictor features use only information available at or before the prediction date to reduce the risk of look-ahead bias.
+
+## Modeling Assumptions and Risks
+
+- The regression assumes that the engineered predictors have an approximately linear relationship with future volatility.
+- Financial time-series observations may exhibit autocorrelation, so residual independence may not hold perfectly.
+- Volatility may exhibit heteroskedasticity and heavy-tailed prediction errors, especially during market stress periods.
+- The chronological train-test split prevents future observations from being used to train models for earlier periods.
+- Results describe predictive relationships and should not be interpreted as causal effects.
