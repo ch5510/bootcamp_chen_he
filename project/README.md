@@ -187,3 +187,15 @@ The modeling target is **future_vol_5d**, representing realized volatility over 
 - Volatility may exhibit heteroskedasticity and heavy-tailed prediction errors, especially during market stress periods.
 - The chronological train-test split prevents future observations from being used to train models for earlier periods.
 - Results describe predictive relationships and should not be interpreted as causal effects.
+
+## Evaluation and Risk Discussion
+
+The baseline linear regression model achieved a test MAE of 0.00337, RMSE of 0.00576, and R² of 0.252. The 95% bootstrap confidence interval for RMSE was approximately 0.00452 to 0.00701, indicating that the estimated prediction error is subject to sampling uncertainty.
+
+The sensitivity analysis shows that increasing model complexity does not improve out-of-sample performance. The second-degree polynomial model produced a higher MAE (0.00352), higher RMSE (0.00629), and substantially lower R² (0.110) than the linear model. Therefore, the simpler linear specification is retained as the preferred baseline.
+
+Model performance deteriorates substantially during periods of high market volatility. RMSE increases from approximately 0.00338 during normal-volatility periods to 0.00991 during high-volatility periods, making prediction error approximately 2.9 times larger under market stress.
+
+In addition, the average prediction error (actual minus predicted volatility) during high-volatility periods is positive at approximately 0.00435. This suggests that the model tends to underestimate future volatility during market stress.
+
+For portfolio and risk management applications, this is an important limitation. The model may provide a useful baseline signal for monitoring near-term volatility, but its forecasts should not be interpreted as precise risk estimates. Particular caution is required during rapidly changing or highly volatile market conditions, when prediction errors are both larger and biased toward underestimating realized volatility.
